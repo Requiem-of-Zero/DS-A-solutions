@@ -439,3 +439,57 @@ var numTimesAllBlue = function(light) {
     
     return moments;
 };
+
+// 1672. Richest Customer Wealth
+// https://leetcode.com/problems/richest-customer-wealth/
+
+var maximumWealth = function(accounts) {
+  let maxWealth = 0;
+    for (let i = 0; i < accounts.length; i++){
+        let wealth = 0; 
+        let account = accounts[i];
+        for (let j = 0; j < account.length; j++){
+            wealth += account[j];
+        }
+        maxWealth = Math.max(wealth, maxWealth);
+    }
+    return maxWealth;
+}; //93% faster than other submissions
+
+var maximumWealth = function(accounts) {
+  return accounts.reduce((acc, val) => {
+    const richest = val.reduce((acc, val) => acc + val, 0);
+    return Math.max(richest, acc);
+  }, 0)
+}; //81% faster
+
+
+// 1470. Shuffle the Array
+// https://leetcode.com/problems/shuffle-the-array/submissions/
+var shuffle = function(nums, n) {
+  let shuffled = [];
+  
+  for(let i=0; i < n; i++){
+    shuffled.push(nums[i]);
+    shuffled.push(nums[i + n])
+  }
+  
+  return shuffled;
+}; //88% faster
+
+// 1512. Number of Good Pairs
+// https://leetcode.com/problems/number-of-good-pairs/
+
+var numIdenticalPairs = function(nums) {
+    var map = new Map();
+    var count = 0;
+    for (var n of nums) {
+        if(map.has(n)) {
+            count +=map.get(n);
+            map.set(n,map.get(n)+1)
+        }else {
+            map.set(n, map.get(n) || 1)
+        }
+    }
+    return count;
+};
