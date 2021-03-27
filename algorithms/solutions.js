@@ -485,11 +485,205 @@ var numIdenticalPairs = function(nums) {
     var count = 0;
     for (var n of nums) {
         if(map.has(n)) {
-            count +=map.get(n);
+            count += map.get(n);
             map.set(n,map.get(n)+1)
         }else {
             map.set(n, map.get(n) || 1)
         }
     }
     return count;
+};
+
+// 1431. Kids With the Greatest Number of Candies
+// https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/submissions/
+var kidsWithCandies = function(candies, extraCandies) {
+  let mostCandiesArr = []; 
+  let highestCandyAmt = Math.max(...candies);
+  
+  for(let i = 0; i < candies.length; i++){
+    if(candies[i] + extraCandies >= highestCandyAmt ){
+      mostCandiesArr.push(true)
+    } else {
+      mostCandiesArr.push(false)
+    }
+  }
+  return mostCandiesArr
+};
+
+// 1108. Defanging an IP Address
+// https://leetcode.com/problems/defanging-an-ip-address/
+var defangIPaddr = function(address) {
+    address = address.split('.').join('[.]')
+    return address;
+};
+
+// 206. Reverse Linked List
+// https://leetcode.com/problems/reverse-linked-list/submissions/
+var reverseList = function(head) {
+    let pre = null
+    while(head){
+        const next = head.next
+        head.next = pre
+        pre = head
+        head = next
+    }
+    return pre
+};
+
+// 21. Merge Two Sorted Lists
+// https://leetcode.com/problems/merge-two-sorted-lists/
+var mergeTwoLists = function(l1, l2) {
+    let dummyHead = new ListNode(0);
+    let currentNode = dummyHead; 
+
+    while(l1 !== null && l2 !== null){
+
+        if(l1.val < l2.val){
+            currentNode.next = l1;
+            l1 = l1.next
+        } else {
+            currentNode.next = l2
+            l2 = l2.next
+        }
+
+        currentNode = currentNode.next
+    }
+
+    if(l1 !== null) {
+        currentNode.next = l1;
+    } else if (l2 !== null) {
+        currentNode.next = l2
+    }
+
+    return dummyHead.next
+}
+
+
+
+function palindromeChecker(s, startIndex, endIndex, subs) {
+    //     s = cdecd
+    // startIndex =[0, 0, 0, 0]
+    // endIndex = [0, 1, 2, 3]
+    // subs = [0, 1, 1, 0]
+
+
+    // let startEnd = []
+    let i = 0;
+    let resultStr = ''
+    while(i < startIndex.length){
+        startEnd.push([startIndex[i],endIndex[i]])
+        i++
+    }
+    // debugger
+
+    let j = 0;
+    while (j < startIndex.length) {
+        let currStart = startEnd[j][0]
+        let currEnd = startEnd[j][1] + 1
+        let currString = s.slice(currStart, currEnd)
+        let currChangeCount = subs[j]
+        let palindromeCheck = isPalindrome(currString)
+
+        if (currString.length < 4 && currChangeCount > 0) {
+            resultStr += '1'
+        } else {
+            while (currChangeCount > 0) {
+                if (palindromeCheck === true) {
+                    resultStr += '1'
+                    break
+                } else {
+                    palindromeCheck = palindromeCheck - 2 < 2 ? true : palindromeCheck - 2
+                    currChangeCount--
+                }
+            }
+            if (palindromeCheck === true && resultStr.length - 1 !== j) resultStr += '1'
+            if (resultStr.length - 1 !== j) resultStr += '0'
+        }
+        j++
+    }
+
+    return resultStr
+
+
+}
+
+
+function isPalindrome(str) {
+    str = str.split('')
+    let set = new Set()
+    for (let char of str) {
+        if (set.has(char)) {  
+            set.delete(char)
+        } else {
+            set.add(char)
+        }
+    }
+    if (set.size < 2) return true
+    return set.size
+}
+
+// 771. Jewels and Stones
+// https://leetcode.com/problems/jewels-and-stones/
+var numJewelsInStones = function(jewels, stones) {
+  let count = 0;
+  
+  for(let i=0; i < stones.length; i++){
+    if(jewels.includes(stones[i])){
+      count++
+    }
+  }
+  
+  return count
+};
+
+// 1603. Design Parking System
+// https://leetcode.com/problems/design-parking-system/
+var ParkingSystem = function(big, medium, small) {
+    this.parking = [null, big, medium, small];
+};
+
+/** 
+ * @param {number} carType
+ * @return {boolean}
+ */
+ParkingSystem.prototype.addCar = function(carType) {
+    if(this.parking[carType] > 0) {
+		this.parking[carType]--;
+		return true;
+	}
+	return false;
+
+};
+
+// 1342. Number of Steps to Reduce a Number to Zero
+// https://leetcode.com/problems/number-of-steps-to-reduce-a-number-to-zero/
+var numberOfSteps  = function(num) {
+  let steps = 0;
+  
+  while(num !== 0){
+    if(num%2 === 0){
+      num = num/2
+      steps++
+  } else {
+      num = num - 1
+      steps++
+    }
+  }
+  
+  return steps
+};
+
+// 1281. Subtract the Product and Sum of Digits of an Integer
+// https://leetcode.com/problems/subtract-the-product-and-sum-of-digits-of-an-integer/submissions/
+var subtractProductAndSum = function(n) {
+    let numStr = String(n).split("")
+    let product = 1;
+    let sum = 0;
+    
+    for(let i=0; i < numStr.length; i++){
+      let number = +numStr[i];
+      product *= number;
+      sum += number;
+    }
+  return product - sum;
 };
