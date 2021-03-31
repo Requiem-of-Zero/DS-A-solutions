@@ -54,3 +54,101 @@ function sortedSquaredArray(array) {
 	return squares;
 }
 
+// Tournament Winner
+
+const HOME_TEAM_WIN = 1;
+
+function tournamentWinner(competitions, results) {
+
+  let currBestTeam = '';
+	let scores = {[currBestTeam]: 0}
+	
+	for(let i=0; i < competitions.length; i++){
+		const result = results[i];
+		const [homeTeam, awayTeam] = competitions[i];
+		
+		const winner = result === HOME_TEAM_WIN ? homeTeam : awayTeam;
+		
+		updateScore(winner, 3, scores);
+		
+		if(scores[winner] > scores[currBestTeam]) {
+			currBestTeam = winner;
+		}
+	}
+	return currBestTeam
+}
+
+function updateScore(team, pts, scores) {
+	if(!(team in scores)) scores[team] = 0;
+	
+	scores[team] += pts
+}
+
+// Non-Constructible Change
+// Time: O(nlog(n)) || Space: O(1)
+function nonConstructibleChange(coins) {
+
+	coins.sort((a,b) => a - b);
+	
+	let currChange = 0;
+	
+	for(const coin of coins){
+		if(coin > currChange + 1) return currChange + 1;
+		
+		currChange += coin
+	}
+	
+  return currChange + 1;
+}
+
+// Find Closest Value in BST
+// Time: O(log(n)) || Space: O(log(n))
+function findClosestValueInBst(tree, target) {
+
+	return closestValueHelper(tree, target, tree.value)
+}
+
+function closestValueHelper(tree, target, closest){
+	if(tree === null){
+		return closest
+	}
+	
+	if(Math.abs(target - closest) > Math.abs(target - tree.value)){
+		closest = tree.value
+	}
+	
+	if(target < tree.value){
+		return closestValueHelper(tree.left, target, closest)
+	}else if(target > tree.value){
+		return closestValueHelper(tree.right, target, closest)
+	}else{
+		return closest
+	}
+}
+
+// Branch Sums
+// Time: O(n) || Space: O(n)
+function branchSums(root) {
+
+	let sums = []
+	calculateBranchSum(root, 0, sums)
+	return sums
+}
+
+function calculateBranchSum(root, currentSum, sums){
+	if(!root) return;
+	let newSum = currentSum + root.value
+	if(!root.left && !root.right){
+		return sums.push(newSum)
+	}
+	
+	calculateBranchSum(root.left, newSum, sums)
+	calculateBranchSum(root.right, newSum, sums)
+}
+
+// Node Depths
+// Time: O(n) || Space: O(h)
+function nodeDepths(root, depth = 0) {
+	if(root === null) return 0;
+	return depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1);
+}
