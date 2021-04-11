@@ -152,3 +152,125 @@ function nodeDepths(root, depth = 0) {
 	if(root === null) return 0;
 	return depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1);
 }
+
+// DFS
+
+function depthFirstSearch(array) {
+
+	array.push(this.name);
+	for(const child of this.children){
+		child.depthFirstSearch(array);
+	}
+	return array;
+}
+
+// 896. Monotonic Array
+// https://leetcode.com/problems/monotonic-array/
+
+var isMonotoic = function(A) {
+	let first = A[0];
+	let last  = A[A.length - 1];
+	const direction =  first > last ? 1 : -1
+
+	for(let i = 0; i < A.length; i++) {
+		if(direction === 1 && A[i] < A[i+1]){
+			return false;
+		} else if (direction === -1 && A[i] > A[i+1]){
+			return false;
+		}
+	}
+	return true;
+}
+
+// 1528. Shuffle String
+// https://leetcode.com/problems/shuffle-string/
+
+var restoreString = function(s, indices) {
+    let newStr = new Array(s.length).fill(0)
+    
+    for(let i = 0; i < s.length; i++){
+      newStr[indices[i]] = s[i]
+    }
+  
+  return newStr.join("")
+};
+
+// 1313. Decompress Run-Length Encoded List
+// https://leetcode.com/problems/decompress-run-length-encoded-list/
+var decompressRLElist = function(nums) {
+  let result = [];
+  
+	//the max = max of nums
+  for(let i=0; i < nums.length; i += 2){  //O(n/2)
+    [freq, val] = [nums[i], nums[i+1]]
+    for(let j=0; j < freq; j++){ 
+      result.push(val)
+    }
+  }
+  
+  return result
+};
+
+// 1678. Goal Parser Interpretation
+// https://leetcode.com/problems/goal-parser-interpretation/submissions/
+var interpret = function(command) {
+  let newCommand = '';
+  for(let i=0; i < command.length; i++) {
+    if(command[i] === 'G'){
+      newCommand += 'G'
+    } else if (command[i] === '(' && command[i+1] === ')'){
+      newCommand += 'o'
+    } else if (command[i] === 'a'){
+      newCommand += 'al'
+    }
+  }
+  
+  return newCommand
+};
+
+// 1773. Count Items Matching a Rule
+// https://leetcode.com/problems/count-items-matching-a-rule/
+var countMatches = function(items, ruleKey, ruleValue) {
+  let count = 0;
+  
+  if(ruleKey === 'type'){
+    for(let i=0; i < items.length; i++){
+      if(items[i][0] === ruleValue ){
+        count++
+      }
+    }
+  }
+  
+  if(ruleKey === 'color'){
+  for(let i=0; i < items.length; i++){
+    if(items[i][1] === ruleValue ){
+      count++
+      }
+    }
+  }
+  
+  if(ruleKey === 'name'){
+  for(let i=0; i < items.length; i++){
+    if(items[i][2] === ruleValue ){
+      count++
+      }
+    }
+  }
+  
+  return count;
+};
+
+// 1389. Create Target Array in the Given Order
+// https://leetcode.com/problems/create-target-array-in-the-given-order/
+var createTargetArray = function(nums, index) {
+  let result = [];
+  
+  for(let i=0; i < nums.length; i++){
+    let num = nums[i];
+    let idx = index[i];
+    
+    result.splice(idx, 0, num)
+  }
+  
+  return result
+};
